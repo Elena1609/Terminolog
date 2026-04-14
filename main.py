@@ -1,3 +1,6 @@
+from dotenv import load_dotenv
+load_dotenv()
+
 from smolagents import DuckDuckGoSearchTool, HfApiModel, ToolCallingAgent, VisitWebpageTool, OpenAIServerModel, PromptTemplates
 
 model = OpenAIServerModel(model_id="openai/gpt-4o-mini")
@@ -21,3 +24,8 @@ agent = ToolCallingAgent(
     prompt_templates=prompt_templates,
     max_steps=6 # ограничение от зацикливания
 )
+
+query = "Балка"
+output = agent.run(query)
+
+print("Executor result:", output)
