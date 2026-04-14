@@ -30,7 +30,11 @@ agent = ToolCallingAgent(
     max_steps=6 # ограничение от зацикливания
 )
 
-query = input("Введите термин: ")
-output = agent.run(query)
-
-print("Executor result:", output)
+while True:
+    query = input("\nВведите термин (или 'выход' для завершения): ").strip()
+    if query.lower() in ("выход", "exit", "quit"):
+        break
+    if not query:
+        continue
+    output = agent.run(query)
+    print("Executor result:", output)
