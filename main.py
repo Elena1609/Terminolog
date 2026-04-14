@@ -14,3 +14,10 @@ prompt_templates = PromptTemplates(system_prompt="""
 У тебя есть инструмент VisitWebpageTool, который позволяет прочитать содержимое веб-страницы. Используй его, если в результате поиска ты получил ссылку и хочешь узнать, что на ней написано.
 Когда находишь ответ,  вызывай инструмент final_answer, и пиши его в ответе.
 """)
+
+agent = ToolCallingAgent(
+    tools=tools,
+    model=model,
+    prompt_templates=prompt_templates,
+    max_steps=6 # ограничение от зацикливания
+)
