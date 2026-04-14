@@ -53,4 +53,4 @@ externalPort = 80
 [userenv]
 
 [userenv.shared]
-OPENAI_BASE_URL = "https://proxy.merkulov.ai"
+OPENAI_BASE_URL = "https://proxy.merkulov.ai/v1"
