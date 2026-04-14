@@ -1,14 +1,11 @@
 import os
+import time
 from dotenv import load_dotenv
 load_dotenv()
 
 from smolagents import DuckDuckGoSearchTool, HfApiModel, ToolCallingAgent, VisitWebpageTool, OpenAIServerModel, PromptTemplates
 
-model = OpenAIServerModel(
-    model_id="openai/gpt-4o-mini",
-    api_key=os.environ.get("OPENAI_API_KEY"),
-    api_base=os.environ.get("OPENAI_BASE_URL", "https://openrouter.ai/"),
-)
+model = HfApiModel(model_id="Qwen/Qwen2.5-72B-Instruct")
 
 tools = [
     DuckDuckGoSearchTool(max_results=5), # поиск в интернете через бесплатный поисковик
