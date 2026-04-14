@@ -7,7 +7,7 @@ from smolagents import DuckDuckGoSearchTool, HfApiModel, ToolCallingAgent, Visit
 model = OpenAIServerModel(
     model_id="openai/gpt-4o-mini",
     api_key=os.environ.get("OPENAI_API_KEY"),
-    api_base=os.environ.get("OPENAI_BASE_URL", "https://proxy.merkulov.ai"),
+    api_base=os.environ.get("OPENAI_BASE_URL", "https://openrouter.ai/"),
 )
 
 tools = [
