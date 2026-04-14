@@ -30,7 +30,7 @@ agent = ToolCallingAgent(
     max_steps=6 # ограничение от зацикливания
 )
 
-query = "Балка"
+query = input("Введите термин: ")
 output = agent.run(query)
 
 print("Executor result:", output)
