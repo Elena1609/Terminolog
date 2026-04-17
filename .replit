@@ -24,12 +24,13 @@ args = "Start application"
 name = "Start application"
 author = "agent"
 
+[workflows.workflow.metadata]
+outputType = "webview"
+
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "python main.py"
-
-[workflows.workflow.metadata]
-outputType = "console"
+args = "python server.py"
+waitForPort = 5000
 
 [agent]
 stack = "PNPM_WORKSPACE"
@@ -43,6 +44,10 @@ timeoutMs = 20000
 channel = "stable-25_05"
 
 [[ports]]
+localPort = 5000
+externalPort = 5000
+
+[[ports]]
 localPort = 8080
 externalPort = 8080
 
@@ -54,3 +59,4 @@ externalPort = 80
 
 [userenv.shared]
 OPENAI_BASE_URL = "https://openrouter.ai/api/v1"
+PORT = "5000"
