@@ -80,6 +80,10 @@ HTML = """<!DOCTYPE html>
   .loading { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; }
   .loading-text { font-size: 13px; color: #475569; }
   .error-card { background: #1a0f0f; border: 1px solid #7f1d1d; border-radius: 14px; padding: 20px; color: #fca5a5; font-size: 14px; }
+  .btn-save { background: transparent; color: #60a5fa; border: 1px solid #1e3a6e; border-radius: 8px; padding: 6px 14px; font-size: 12px; cursor: pointer; transition: background 0.15s; white-space: nowrap; }
+  .btn-save:hover { background: #0f2b57; }
+  .btn-save-all { background: transparent; color: #94a3b8; border: 1px solid #1e293b; border-radius: 8px; padding: 7px 12px; font-size: 12px; cursor: pointer; transition: background 0.15s; width: 100%; margin-bottom: 8px; }
+  .btn-save-all:hover { background: #1e293b; color: #e2e8f0; }
 </style>
 </head>
 <body>
@@ -124,12 +128,65 @@ HTML = """<!DOCTYPE html>
 
   function renderHistory() {
     const el = document.getElementById('history');
-    el.innerHTML = history.map((item, i) => `
+    const saveAllBtn = history.length > 0
+      ? `<button class="btn-save-all" onclick="saveAllTxt()">💾 Сохранить все (${history.length})</button>`
+      : '';
+    el.innerHTML = saveAllBtn + history.map((item, i) => `
       <div class="history-item" onclick="loadHistory(${i})">
         <div class="history-term">${item.term}</div>
         <div class="history-def">${item.definition}</div>
       </div>
     `).join('');
+  }
+
+  function saveTxt(term, definition) {
+    const date = new Date().toLocaleDateString('ru-RU');
+    const lines = [
+      'Терминолог — определение в стиле ГОСТ',
+      '='.repeat(42),
+      '',
+      'Термин: ' + term,
+      'Дата:   ' + date,
+      '',
+      definition,
+      '',
+      '='.repeat(42),
+      'Источник: DuckDuckGo + ГОСТы  |  Модель: openai/gpt-4o-mini'
+    ].join('\\n');
+    const blob = new Blob([lines], { type: 'text/plain;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = term + '.txt';
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  function saveAllTxt() {
+    if (!history.length) return;
+    const date = new Date().toLocaleDateString('ru-RU');
+    const parts = [
+      'Терминолог — все определения',
+      '='.repeat(42),
+      'Дата: ' + date,
+      ''
+    ];
+    history.forEach(item => {
+      parts.push('');
+      parts.push('Термин: ' + item.term);
+      parts.push('-'.repeat(30));
+      parts.push(item.definition);
+    });
+    parts.push('');
+    parts.push('='.repeat(42));
+    parts.push('Источник: DuckDuckGo + ГОСТы  |  Модель: openai/gpt-4o-mini');
+    const blob = new Blob([parts.join('\\n')], { type: 'text/plain;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'терминолог_' + date.replace(/\\./g, '-') + '.txt';
+    a.click();
+    URL.revokeObjectURL(url);
   }
 
   function loadHistory(i) {
@@ -147,6 +204,8 @@ HTML = """<!DOCTYPE html>
   }
 
   function showResult(term, definition) {
+    window._lastTerm = term;
+    window._lastDef = definition;
     document.getElementById('content').innerHTML = `
       <div class="result-card">
         <div class="result-header">
@@ -154,10 +213,11 @@ HTML = """<!DOCTYPE html>
           <h2 class="result-term">${term}</h2>
         </div>
         <p class="result-text">${definition}</p>
-        <div class="result-footer">
+        <div class="result-footer" style="align-items:center">
           <span>Источник: DuckDuckGo + ГОСТы</span>
           <span>·</span>
           <span>Модель: openai/gpt-4o-mini</span>
+          <button class="btn-save" onclick="saveTxt(window._lastTerm, window._lastDef)">💾 Сохранить в TXT</button>
         </div>
       </div>`;
   }
