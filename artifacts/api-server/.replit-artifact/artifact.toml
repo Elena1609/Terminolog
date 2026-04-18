@@ -10,7 +10,7 @@ name = "Terminologist Web App"
 paths = ["/"]
 
 [services.development]
-run = "python server.py"
+run = "echo 'dev handled by Start application'"
 
 [services.production]
 
