@@ -47,3 +47,25 @@ Thumbs.db
 # Replit
 .cache/
 .local/
+
+# Секреты и переменные окружения — НИКОГДА не публиковать!
+.env
+.env.local
+.env.*.local
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.pythonlibs/
+*.egg-info/
+.eggs/
+pip-log.txt
+
+# Логи
+*.log
+logs/
+/tmp/
+
+# Скриншоты и временные ассеты (создаются агентом)
+attached_assets/
