@@ -1,5 +1,7 @@
 # Терминолог
 
+🔗 **Живое приложение:** [terminolog.replit.app](https://terminolog.replit.app/)
+
 Учебный проект — AI-агент на базе библиотеки [smolagents](https://github.com/huggingface/smolagents), который предлагает определения терминов в стиле ГОСТов.
 
 ## Описание
